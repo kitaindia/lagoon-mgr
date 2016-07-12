@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160712004118) do
+ActiveRecord::Schema.define(version: 20160712144406) do
 
   create_table "applists", force: :cascade do |t|
     t.string   "google_play_uid"
     t.string   "itunes_uid"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["google_play_uid"], name: "index_applists_on_google_play_uid", unique: true
+    t.index ["itunes_uid"], name: "index_applists_on_itunes_uid", unique: true
   end
 
   create_table "google_play_apps", force: :cascade do |t|
@@ -56,6 +58,7 @@ ActiveRecord::Schema.define(version: 20160712004118) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
