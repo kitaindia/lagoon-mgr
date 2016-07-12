@@ -1,0 +1,2 @@
+class UserApplist < ApplicationRecord
+end

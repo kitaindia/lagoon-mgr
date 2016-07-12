@@ -1,0 +1,2 @@
+class ItunesApp < ApplicationRecord
+end

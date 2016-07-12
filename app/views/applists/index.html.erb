@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Applists</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Google play uid</th>
+      <th>Itunes uid</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @applists.each do |applist| %>
+      <tr>
+        <td><%= applist.google_play_uid %></td>
+        <td><%= applist.itunes_uid %></td>
+        <td><%= link_to 'Show', applist %></td>
+        <td><%= link_to 'Edit', edit_applist_path(applist) %></td>
+        <td><%= link_to 'Destroy', applist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Applist', new_applist_path %>

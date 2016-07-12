@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @itunes_app.name %>
+</p>
+
+<p>
+  <strong>Icon url:</strong>
+  <%= @itunes_app.icon_url %>
+</p>
+
+<%= link_to 'Edit', edit_itunes_app_path(@itunes_app) %> |
+<%= link_to 'Back', itunes_apps_path %>

@@ -1,0 +1,2 @@
+class GooglePlayApp < ApplicationRecord
+end

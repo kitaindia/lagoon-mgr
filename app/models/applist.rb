@@ -1,0 +1,2 @@
+class Applist < ApplicationRecord
+end
