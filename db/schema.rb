@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20160712004118) do
   end
 
   create_table "google_play_apps", force: :cascade do |t|
+    t.integer  "applist_id"
     t.string   "name"
     t.string   "icon_url"
     t.datetime "created_at", null: false
@@ -27,6 +28,7 @@ ActiveRecord::Schema.define(version: 20160712004118) do
   end
 
   create_table "itunes_apps", force: :cascade do |t|
+    t.integer  "applist_id"
     t.string   "name"
     t.string   "icon_url"
     t.datetime "created_at", null: false
