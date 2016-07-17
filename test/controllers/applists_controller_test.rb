@@ -17,7 +17,7 @@ class ApplistsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create applist" do
     assert_difference('Applist.count') do
-      post applists_url, params: { applist: { google_play_uid: @applist.google_play_uid, itunes_uid: @applist.itunes_uid } }
+      post applists_url, params: { applist: { google_play_url: @applist.google_play_url, itunes_url: @applist.itunes_url } }
     end
 
     assert_redirected_to applist_url(Applist.last)
@@ -34,7 +34,7 @@ class ApplistsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update applist" do
-    patch applist_url(@applist), params: { applist: { google_play_uid: @applist.google_play_uid, itunes_uid: @applist.itunes_uid } }
+    patch applist_url(@applist), params: { applist: { google_play_url: @applist.google_play_url, itunes_url: @applist.itunes_url } }
     assert_redirected_to applist_url(@applist)
   end
 

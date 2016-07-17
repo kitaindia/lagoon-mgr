@@ -13,12 +13,12 @@
 ActiveRecord::Schema.define(version: 20160712144406) do
 
   create_table "applists", force: :cascade do |t|
-    t.string   "google_play_uid"
-    t.string   "itunes_uid"
+    t.string   "google_play_url"
+    t.string   "itunes_url"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["google_play_uid"], name: "index_applists_on_google_play_uid", unique: true
-    t.index ["itunes_uid"], name: "index_applists_on_itunes_uid", unique: true
+    t.index ["google_play_url"], name: "index_applists_on_google_play_url", unique: true
+    t.index ["itunes_url"], name: "index_applists_on_itunes_url", unique: true
   end
 
   create_table "google_play_apps", force: :cascade do |t|

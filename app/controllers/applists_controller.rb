@@ -69,6 +69,6 @@ class ApplistsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def applist_params
-      params.require(:applist).permit(:google_play_uid, :itunes_uid)
+      params.require(:applist).permit(:google_play_url, :itunes_url)
     end
 end

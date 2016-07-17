@@ -1,1 +1,1 @@
-json.extract! @applist, :id, :google_play_uid, :itunes_uid, :created_at, :updated_at
+json.extract! @applist, :id, :google_play_url, :itunes_url, :created_at, :updated_at
