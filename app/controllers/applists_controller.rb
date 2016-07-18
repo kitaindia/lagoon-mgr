@@ -1,4 +1,7 @@
+require 'open-uri'
+
 class ApplistsController < ApplicationController
+
   before_action :set_applist, only: [:show, :edit, :update, :destroy]
 
   # GET /applists
@@ -19,6 +22,30 @@ class ApplistsController < ApplicationController
 
   # GET /applists/1/edit
   def edit
+  end
+
+  # POST /applists/1/scrape_app
+  def scrape_app
+    applist = Applist.find(params[:applist_id])
+
+    #WIP only itunes_url
+    itunes_url = applist.itunes_url
+    country_code_match = itunes_url.match(/itunes\.apple\.com\/(.+?)\//) if itunes_url
+    app_id_match = itunes_url.match(/id(\d+)/) if itunes_url
+    if country_code_match and app_id_match
+      country_code = country_code_match[1]
+      app_id = app_id_match[1]
+      response = open("https://itunes.apple.com/#{country_code}/lookup?id=#{app_id}")
+      code, message = response.status
+      if code == '200'
+        json = ActiveSupport::JSON.decode(response.read)
+        result = json['results'][0]
+        icon_url = result['artworkUrl100']
+        name = result['trackName']
+        @itunes_app = ItunesApp.new(icon_url: icon_url, name: name)
+        @itunes_app.save(validate: false)
+      end
+    end
   end
 
   # POST /applists
