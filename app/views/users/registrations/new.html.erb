@@ -14,6 +14,13 @@
   </div>
 
   <div class="field">
+    <%= f.label :is_admin %>
+    <em>(If you don't review apps, please check this.) </em>
+    <br />
+    <%= f.check_box :is_admin %>
+  </div>
+
+  <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>

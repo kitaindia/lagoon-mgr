@@ -28,6 +28,8 @@ class ApplistsController < ApplicationController
   def scrape_app
     applist = Applist.find(params[:applist_id])
 
+    scrape_success = false
+
     #WIP only itunes_url
     itunes_url = applist.itunes_url
     country_code_match = itunes_url.match(/itunes\.apple\.com\/(.+?)\//) if itunes_url
@@ -43,15 +45,34 @@ class ApplistsController < ApplicationController
         icon_url = result['artworkUrl100']
         name = result['trackName']
         @itunes_app = ItunesApp.new(icon_url: icon_url, name: name, applist_id: params[:applist_id])
-        @itunes_app.save()
+        if @itunes_app.save
+          scrape_success = true
+        end
       end
     end
+
+    respond_to do |format|
+      if scrape_success
+        applist.update_attributes(is_scraped: true)
+        format.html { redirect_to :applists, notice: "App detail scraping Success!" }
+      else
+        format.html { redirect_to :applists, notice: "something went wrong" }
+      end
+    end
+
   end
 
   def done_app
     applist = Applist.find(params[:applist_id])
     user_applist = applist.user_applists.find_by(user: current_user)
-    user_applist.update_attributes(is_done: true)
+
+    respond_to do |format|
+      if user_applist.update_attributes(is_done: true)
+        format.html { redirect_to :root, notice: "App was successfully done!" }
+      else
+        format.html { redirect_to :root, notice: "something went wrong" }
+      end
+    end
   end
 
   # POST /applists
