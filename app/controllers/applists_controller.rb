@@ -48,6 +48,12 @@ class ApplistsController < ApplicationController
     end
   end
 
+  def done_app
+    applist = Applist.find(params[:applist_id])
+    user_applist = applist.user_applists.find_by(user: current_user)
+    user_applist.update_attributes(is_done: true)
+  end
+
   # POST /applists
   # POST /applists.json
   def create

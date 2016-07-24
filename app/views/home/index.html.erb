@@ -1,5 +1,5 @@
 <% if user_signed_in? %>
-  Logged in as <strong><%= current_user.email %></strong>.
+  Logged in as <strong><%= current_user.username %></strong>.
   <%= link_to "Settings", edit_user_registration_path, :class => "navbar-link" %> |
   <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "navbar-link" %>
 <% else %>
@@ -9,25 +9,30 @@
 
 <h1>My reviewing App</h1>
 
+<% if @reviewing_apps.present? %>
 <table>
-
   <thead>
     <tr>
       <th>Itunes Icon</th>
       <th>Itunes App</th>
       <th>Gooele Play Icon</th>
       <th>Gooele Play App</th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <% current_user.applists.each do |applist| %>
+    <% @reviewing_apps.each do |applist| %>
       <tr>
         <td><% if applist.itunes_app %><%= image_tag(applist.itunes_app.icon_url) %><% end %></td>
         <td><% if applist.itunes_app %><%= link_to applist.itunes_app.name, applist.itunes_url %><% end %></td>
         <td><% if applist.google_play_app %><%= image_tag(applist.google_play_app.icon_url) %><% end %></td>
         <td><% if applist.google_play_app %><%= link_to applist.google_play_app.name, applist.google_play_url %><% end %></td>
+        <td><%= button_to 'Review Done!', applist_done_app_path(applist) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<% else %>
+<p>empty Apps</p>
+<% end %>

@@ -12,5 +12,10 @@ class HomeController < ApplicationController
       #
       UserApplist.create(user: current_user, applist: app, is_done: false)
     end
+
+    @reviewing_apps = current_user.applists.reviewing
+
+    @done_reviewing_apps = current_user.applists.is_done
   end
+
 end
