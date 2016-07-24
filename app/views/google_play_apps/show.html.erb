@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @google_play_app.name %>
+</p>
+
+<p>
+  <strong>Icon url:</strong>
+  <%= @google_play_app.icon_url %>
+</p>
+
+<%= link_to 'Edit', edit_google_play_app_path(@google_play_app) %> |
+<%= link_to 'Back', google_play_apps_path %>

@@ -1,0 +1,2 @@
+module GooglePlayAppsHelper
+end

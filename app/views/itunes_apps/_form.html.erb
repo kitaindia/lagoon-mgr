@@ -1,0 +1,27 @@
+<%= form_for(itunes_app) do |f| %>
+  <% if itunes_app.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(itunes_app.errors.count, "error") %> prohibited this itunes_app from being saved:</h2>
+
+      <ul>
+      <% itunes_app.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :icon_url %>
+    <%= f.text_field :icon_url %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Google play uid:</strong>
+  <%= @applist.google_play_url %>
+</p>
+
+<p>
+  <strong>Itunes uid:</strong>
+  <%= @applist.itunes_url %>
+</p>
+
+<%= link_to 'Edit', edit_applist_path(@applist) %> |
+<%= link_to 'Back', applists_path %>

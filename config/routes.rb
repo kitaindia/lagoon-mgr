@@ -1,3 +1,13 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  root to: "home#index"
+
+  resources :google_play_apps
+  resources :itunes_apps
+  resources :applists do
+    post :scrape_app
+    post :done_app
+  end
+  devise_for :users
+
 end
