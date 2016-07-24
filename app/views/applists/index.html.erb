@@ -17,7 +17,7 @@
         <td><%= applist.google_play_url %></td>
         <td><%= applist.itunes_url %></td>
         <td>
-          <% if applist.google_play_app.present? or applist.itunes_app.present? %>
+          <% if applist.is_scraped %>
             <%= button_to 'Scrape_app_detail', applist_scrape_app_path(applist) ,disabled: true %>
           <% else %>
             <%= button_to 'Scrape_app_detail', applist_scrape_app_path(applist) %>
