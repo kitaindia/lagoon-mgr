@@ -1,8 +1,8 @@
 class Applist < ApplicationRecord
   has_many :user_applists
   has_many :users, through: :user_applists
-  has_many :itunes_apps
-  has_many :google_play_apps
+  has_one :itunes_app
+  has_one :google_play_app
 
   validates :google_play_url, allow_blank: true, format: /\A#{URI::regexp(%w(http https))}\z/
   validates :itunes_url, allow_blank: true, format: /\A#{URI::regexp(%w(http https))}\z/

@@ -42,8 +42,8 @@ class ApplistsController < ApplicationController
         result = json['results'][0]
         icon_url = result['artworkUrl100']
         name = result['trackName']
-        @itunes_app = ItunesApp.new(icon_url: icon_url, name: name)
-        @itunes_app.save(validate: false)
+        @itunes_app = ItunesApp.new(icon_url: icon_url, name: name, applist_id: params[:applist_id])
+        @itunes_app.save()
       end
     end
   end

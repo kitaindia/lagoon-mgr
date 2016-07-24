@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 20160712144406) do
     t.string   "itunes_url"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["google_play_url"], name: "index_applists_on_google_play_url", unique: true
-    t.index ["itunes_url"], name: "index_applists_on_itunes_url", unique: true
+    t.index ["google_play_url"], name: "index_applists_on_google_play_url"
+    t.index ["itunes_url"], name: "index_applists_on_itunes_url"
   end
 
   create_table "google_play_apps", force: :cascade do |t|

@@ -7,7 +7,7 @@ class CreateApplists < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_index :applists, :google_play_url, unique: true
-    add_index :applists, :itunes_url, unique: true
+    add_index :applists, :google_play_url
+    add_index :applists, :itunes_url
   end
 end

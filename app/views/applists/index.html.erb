@@ -16,7 +16,13 @@
       <tr>
         <td><%= applist.google_play_url %></td>
         <td><%= applist.itunes_url %></td>
-        <td><%= button_to 'Scrape_app_detail', applist_scrape_app_path(applist) %></td>
+        <td>
+          <% if applist.google_play_app.present? or applist.itunes_app.present? %>
+            <%= button_to 'Scrape_app_detail', applist_scrape_app_path(applist) ,disabled: true %>
+          <% else %>
+            <%= button_to 'Scrape_app_detail', applist_scrape_app_path(applist) %>
+          <% end %>
+        </td>
         <td><%= link_to 'Show', applist %></td>
         <td><%= link_to 'Edit', edit_applist_path(applist) %></td>
         <td><%= link_to 'Destroy', applist, method: :delete, data: { confirm: 'Are you sure?' } %></td>

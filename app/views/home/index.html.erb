@@ -6,4 +6,28 @@
   <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link' %> |
   <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
 <% end %>
-<p>Find me in app/views/home/index.html.erb</p>
+
+<h1>My reviewing App</h1>
+
+<table>
+
+  <thead>
+    <tr>
+      <th>Itunes Icon</th>
+      <th>Itunes App</th>
+      <th>Gooele Play Icon</th>
+      <th>Gooele Play App</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% current_user.applists.each do |applist| %>
+      <tr>
+        <td><% if applist.itunes_app %><%= image_tag(applist.itunes_app.icon_url) %><% end %></td>
+        <td><% if applist.itunes_app %><%= link_to applist.itunes_app.name, applist.itunes_url %><% end %></td>
+        <td><% if applist.google_play_app %><%= image_tag(applist.google_play_app.icon_url) %><% end %></td>
+        <td><% if applist.google_play_app %><%= link_to applist.google_play_app.name, applist.google_play_url %><% end %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
