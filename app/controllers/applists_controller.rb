@@ -30,23 +30,50 @@ class ApplistsController < ApplicationController
 
     scrape_success = false
 
-    #WIP only itunes_url
-    itunes_url = applist.itunes_url
-    country_code_match = itunes_url.match(/itunes\.apple\.com\/(.+?)\//) if itunes_url
-    app_id_match = itunes_url.match(/id(\d+)/) if itunes_url
-    if country_code_match and app_id_match
-      country_code = country_code_match[1]
-      app_id = app_id_match[1]
-      response = open("https://itunes.apple.com/#{country_code}/lookup?id=#{app_id}")
-      code, message = response.status
-      if code == '200'
-        json = ActiveSupport::JSON.decode(response.read)
-        result = json['results'][0]
-        icon_url = result['artworkUrl100']
-        name = result['trackName']
-        @itunes_app = ItunesApp.new(icon_url: icon_url, name: name, applist_id: params[:applist_id])
-        if @itunes_app.save
-          scrape_success = true
+    if applist.itunes_url
+      country_code_match = applist.itunes_url.match(/itunes\.apple\.com\/(.+?)\//)
+      app_id_match = applist.itunes_url.match(/id(\d+)/)
+
+      if country_code_match and app_id_match
+
+        country_code = country_code_match[1]
+        app_id = app_id_match[1]
+        response = open("https://itunes.apple.com/#{country_code}/lookup?id=#{app_id}")
+        code, message = response.status
+        if code == '200'
+          json = ActiveSupport::JSON.decode(response.read)
+          result = json['results'][0]
+          @itunes_app = ItunesApp.new(
+            icon_url: result['artworkUrl100'],
+            name: result['trackName'],
+            applist_id: params[:applist_id]
+          )
+
+          if @itunes_app.save
+            scrape_success = true
+          end
+        end
+      end
+    end
+
+    if applist.google_play_url
+      app_id_match = applist.google_play_url.match(/id=(.+)$/)
+
+      if app_id_match
+        app_id = app_id_match[1]
+        app = MarketBot::Play::App.new(app_id)
+        begin
+          app.update
+          @google_app = GooglePlayApp.new(
+            icon_url: app.cover_image_url,
+            name: app.title,
+            applist_id: params[:applist_id]
+          )
+          if @google_app.save
+            scrape_success = true
+          end
+        rescue MarketBot::NotFoundError => e
+          puts e.message
         end
       end
     end
