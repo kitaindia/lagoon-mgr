@@ -8,8 +8,8 @@
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:google_play_url) %></th>
       <th><%= model_class.human_attribute_name(:itunes_url) %></th>
-      <th><%= model_class.human_attribute_name(:is_scraped) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th>Fetch App-info</th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -19,8 +19,17 @@
         <td><%= link_to applist.id, applist_path(applist) %></td>
         <td><%= applist.google_play_url %></td>
         <td><%= applist.itunes_url %></td>
-        <td><%= applist.is_scraped %></td>
-        <td><%=l applist.created_at %></td>
+        <td><%= applist.created_at %></td>
+        <td>
+          <% if applist.is_scraped %>
+            <%= button_to 'FETCH', applist_scrape_app_path(applist),
+                disabled: true,
+                class: 'btn btn-lg btn-info' %>
+          <% else %>
+            <%= button_to 'FETCH', applist_scrape_app_path(applist),
+                class: 'btn btn-lg btn-info' %>
+          <% end %>
+        </td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_applist_path(applist), :class => 'btn btn-default btn-xs' %>
