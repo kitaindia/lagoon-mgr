@@ -1,27 +1,48 @@
-<%= form_for(applist) do |f| %>
-  <% if applist.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(applist.errors.count, "error") %> prohibited this applist from being saved:</h2>
+<%= form_for @applist, :html => { :class => "form-horizontal applist" } do |f| %>
 
-      <ul>
-      <% applist.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <% if @applist.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@applist.errors.count, "error") %> prohibited this applist from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @applist.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :google_play_url %>
-    <%= f.text_field :google_play_url %>
+  <div class="form-group">
+    <%= f.label :google_play_url, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :google_play_url, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:google_play_url) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :itunes_url, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :itunes_url, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:itunes_url) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :is_scraped, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :is_scraped, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:is_scraped) %>
   </div>
 
-  <div class="field">
-    <%= f.label :itunes_url %>
-    <%= f.text_field :itunes_url %>
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                applists_path, :class => 'btn btn-default' %>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>
