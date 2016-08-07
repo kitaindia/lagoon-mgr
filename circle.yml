@@ -1,0 +1,6 @@
+deployment:
+  production:
+    branch: master
+    commands:
+      - git push git@heroku.com:lagoon-manager.git master -f
+      - heroku run rake db:migrate --app lagoon-mgr
