@@ -34,6 +34,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 gem 'market_bot'
 
+gem 'seed-fu'
+gem 'dotenv-rails'
+
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 
