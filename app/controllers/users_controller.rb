@@ -21,12 +21,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-      else
-        format.html { render :new }
-      end
+    if @user.save
+      redirect_to @user, notice: 'User was successfully created.'
+    else
+      render :new
     end
   end
 
@@ -37,19 +35,16 @@ class UsersController < ApplicationController
       params[:user].delete(:password_confirmation)
     end
 
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-      else
-        format.html { render :edit }
-      end
+    if @user.update(user_params)
+      redirect_to @user, notice: 'User was successfully updated.'
+    else
+      render :edit
     end
   end
 
   def destroy
     @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      redirect_to users_url, notice: 'User was successfully destroyed.'
     end
   end
 
