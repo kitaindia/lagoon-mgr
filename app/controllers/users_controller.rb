@@ -49,17 +49,16 @@ class UsersController < ApplicationController
   end
 
   private
-    def authenticate_admin_user!
-      unless current_user.is_admin
-        raise ActionController::RoutingError.new('Not Found')
-      end
+  def authenticate_admin_user!
+    unless current_user.is_admin
+      raise ActionController::RoutingError.new('Not Found')
     end
+  end
 
-    def set_user
-      @user = User.find(params[:id])
-    end
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    def user_params
-      params.require(:user).permit(:username, :email, :password, :password_confirmation)
-    end
-end
+  def user_params
+    params.require(:user).permit(:username, :email, :password, :password_confirmation)
+  end
