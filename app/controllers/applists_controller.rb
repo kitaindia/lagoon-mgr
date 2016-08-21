@@ -78,13 +78,10 @@ class ApplistsController < ApplicationController
       end
     end
 
-    respond_to do |format|
-      if scrape_success
-        applist.update_attributes(is_scraped: true)
-        format.html { redirect_to :applists, notice: "App detail scraping Success!" }
-      else
-        format.html { redirect_to :applists, notice: "something went wrong" }
-      end
+    if scrape_success
+      redirect_to :applists, notice: "App detail scraping Success!"
+    else
+      redirect_to :applists, notice: "something went wrong"
     end
 
   end
@@ -93,12 +90,10 @@ class ApplistsController < ApplicationController
     applist = Applist.find(params[:applist_id])
     user_applist = applist.user_applists.find_by(user: current_user)
 
-    respond_to do |format|
-      if user_applist.update_attributes(is_done: true)
-        format.html { redirect_to :root, notice: "App was successfully done!" }
-      else
-        format.html { redirect_to :root, notice: "something went wrong" }
-      end
+    if user_applist.update_attributes(is_done: true)
+      redirect_to :root, notice: "App was successfully done!"
+    else
+      redirect_to :root, notice: "something went wrong"
     end
   end
 
@@ -107,28 +102,20 @@ class ApplistsController < ApplicationController
   def create
     @applist = Applist.new(applist_params)
 
-    respond_to do |format|
-      if @applist.save
-        format.html { redirect_to @applist, notice: 'Applist was successfully created.' }
-        format.json { render :show, status: :created, location: @applist }
-      else
-        format.html { render :new }
-        format.json { render json: @applist.errors, status: :unprocessable_entity }
-      end
+    if @applist.save
+      redirect_to @applist, notice: 'Applist was successfully created.'
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /applists/1
   # PATCH/PUT /applists/1.json
   def update
-    respond_to do |format|
-      if @applist.update(applist_params)
-        format.html { redirect_to @applist, notice: 'Applist was successfully updated.' }
-        format.json { render :show, status: :ok, location: @applist }
-      else
-        format.html { render :edit }
-        format.json { render json: @applist.errors, status: :unprocessable_entity }
-      end
+    if @applist.update(applist_params)
+      redirect_to @applist, notice: 'Applist was successfully updated.'
+    else
+      render :edit
     end
   end
 
@@ -136,10 +123,7 @@ class ApplistsController < ApplicationController
   # DELETE /applists/1.json
   def destroy
     @applist.destroy
-    respond_to do |format|
-      format.html { redirect_to applists_url, notice: 'Applist was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to applists_url, notice: 'Applist was successfully destroyed.'
   end
 
   private
