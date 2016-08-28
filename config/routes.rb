@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   resources :applists do
     post :scrape_app
     post :done_app
+    collection do
+      post :import
+      get :empty_csv, format: true, defaults: {format: 'csv'}
+    end
   end
   devise_for :users, skip: [:registrations]
   as :user do

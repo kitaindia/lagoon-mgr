@@ -2,6 +2,17 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= form_tag(import_applists_path, :method => :post, multipart: true) do %>
+      <div class="form-group">
+        <%= file_field_tag :csv_file %>
+      </div>
+      <%= submit_tag "CSV Import", :class => "btn btn-primary" %>
+      <td><%= link_to "Get Empty CSV file", empty_csv_applists_path %></td>
+    <% end %>
+  </div>
+</div>
 <table class="table table-striped">
   <thead>
     <tr>

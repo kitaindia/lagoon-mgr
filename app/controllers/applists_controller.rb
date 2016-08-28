@@ -1,7 +1,10 @@
 require 'open-uri'
+require 'csv'
 
 class ApplistsController < ApplicationController
 
+  before_action :authenticate_user!
+  before_action :authenticate_admin_user!
   before_action :set_applist, only: [:show, :edit, :update, :destroy]
 
   # GET /applists
@@ -109,6 +112,15 @@ class ApplistsController < ApplicationController
     end
   end
 
+  def import
+    if params[:csv_file].blank?
+      redirect_to :applists, alert: 'You must select CSV file'
+    else
+      num = Applist.import(params[:csv_file])
+      redirect_to :applists, notice: "Add #{num.to_s} applists was successfully created."
+    end
+  end
+
   # PATCH/PUT /applists/1
   # PATCH/PUT /applists/1.json
   def update
@@ -127,13 +139,20 @@ class ApplistsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_applist
-      @applist = Applist.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def applist_params
-      params.require(:applist).permit(:google_play_url, :itunes_url)
+  def authenticate_admin_user!
+    unless current_user.is_admin
+      raise ActionController::RoutingError.new('Not Found')
     end
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_applist
+    @applist = Applist.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def applist_params
+    params.require(:applist).permit(:google_play_url, :itunes_url)
+  end
 end
