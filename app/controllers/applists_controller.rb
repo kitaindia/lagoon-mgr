@@ -10,7 +10,7 @@ class ApplistsController < ApplicationController
   # GET /applists
   # GET /applists.json
   def index
-    @applists = Applist.all
+    @applists = Applist.page(params[:page])
   end
 
   # GET /applists/1

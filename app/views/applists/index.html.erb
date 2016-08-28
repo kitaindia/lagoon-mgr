@@ -54,7 +54,7 @@
     <% end %>
   </tbody>
 </table>
-
+<%= paginate @applists %>
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_applist_path,
             :class => 'btn btn-primary' %>
