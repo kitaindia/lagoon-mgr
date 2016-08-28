@@ -31,57 +31,11 @@ class ApplistsController < ApplicationController
   def scrape_app
     applist = Applist.find(params[:applist_id])
 
-    scrape_success = false
+    itunes_result = applist.fetch_itunes_app
+    google_play_result = applist.fetch_google_play
 
-    if applist.itunes_url
-      country_code_match = applist.itunes_url.match(/itunes\.apple\.com\/(.+?)\//)
-      app_id_match = applist.itunes_url.match(/id(\d+)/)
-
-      if country_code_match and app_id_match
-
-        country_code = country_code_match[1]
-        app_id = app_id_match[1]
-        response = open("https://itunes.apple.com/#{country_code}/lookup?id=#{app_id}")
-        code, message = response.status
-        if code == '200'
-          json = ActiveSupport::JSON.decode(response.read)
-          result = json['results'][0]
-          @itunes_app = ItunesApp.new(
-            icon_url: result['artworkUrl100'],
-            name: result['trackName'],
-            applist_id: params[:applist_id]
-          )
-
-          if @itunes_app.save
-            scrape_success = true
-          end
-        end
-      end
-    end
-
-    if applist.google_play_url
-      app_id_match = applist.google_play_url.match(/id=(.+)$/)
-
-      if app_id_match
-        app_id = app_id_match[1]
-        app = MarketBot::Play::App.new(app_id)
-        begin
-          app.update
-          @google_app = GooglePlayApp.new(
-            icon_url: app.cover_image_url,
-            name: app.title,
-            applist_id: params[:applist_id]
-          )
-          if @google_app.save
-            scrape_success = true
-          end
-        rescue MarketBot::NotFoundError => e
-          puts e.message
-        end
-      end
-    end
-
-    if scrape_success
+    if itunes_result || google_play_result
+      applist.update_attributes(is_scraped: true)
       redirect_to :applists, notice: "App detail scraping Success!"
     else
       redirect_to :applists, notice: "something went wrong"

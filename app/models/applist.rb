@@ -8,6 +8,69 @@ class Applist < ApplicationRecord
   validates :itunes_url, allow_blank: true, format: /\A#{URI::regexp(%w(http https))}\z/
   validates_with AnyFieldFillValidator, fields: [:google_play_url, :itunes_url]
 
+  def fetch_itunes_app
+    #
+    # fetch app data from itunes app API
+    #
+    return false unless self.itunes_url
+
+    country_code_match = self.itunes_url.match(/itunes\.apple\.com\/(.+?)\//)
+    app_id_match = self.itunes_url.match(/id(\d+)/)
+
+    return false if country_code_match.nil? or app_id_match.nil?
+
+    country_code = country_code_match[1]
+    app_id = app_id_match[1]
+    response = open("https://itunes.apple.com/#{country_code}/lookup?id=#{app_id}")
+    code, message = response.status
+    if code == '200'
+      json = ActiveSupport::JSON.decode(response.read)
+      result = json['results'][0]
+      @itunes_app = ItunesApp.new(
+        icon_url: result['artworkUrl100'],
+        name: result['trackName'],
+        applist_id: self.id
+      )
+
+      if @itunes_app.save
+        return true
+      end
+    end
+
+    return false
+  end
+
+  def fetch_google_play
+    #
+    # fetch data from google play Web site
+    #
+    return false unless self.google_play_url
+
+    app_id_match = self.google_play_url.match(/id=(.+)$/)
+
+    p app_id_match
+    return false if app_id_match.nil?
+
+    app_id = app_id_match[1]
+    app = MarketBot::Play::App.new(app_id)
+    begin
+      app.update
+      @google_app = GooglePlayApp.new(
+        icon_url: app.cover_image_url,
+        name: app.title,
+        applist_id: self.id
+      )
+      if @google_app.save
+        scrape_success = true
+        return true
+      end
+    rescue MarketBot::NotFoundError => e
+      puts e.message
+    end
+
+    return false
+  end
+
   def self.import(file)
 
     imported_num = 0
