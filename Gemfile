@@ -39,12 +39,26 @@ gem 'seed-fu'
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 
+gem 'pry-rails'
+gem 'awesome_print'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'dotenv-rails'
   gem 'letter_opener'
   gem 'letter_opener_web'
+
+  gem 'pry-doc'
+  gem 'pry-byebug'
+  gem 'pry-stack_explorer'
+  gem 'factory_girl_rails'
+  gem 'rspec-rails'
+  gem 'rails-controller-testing'
+  gem 'spring-commands-rspec'
+  gem 'guard'
+  gem 'guard-bundler'
+  gem 'guard-rspec'
 end
 
 group :development do
