@@ -84,12 +84,8 @@ class Applist < ApplicationRecord
       itunes_url = row[1].strip
       applist = where([ "google_play_url = ? or itunes_url = ?", google_play_url, itunes_url ])
 
-      if applist.empty?
-        applist = new
-        applist.attributes = {google_play_url: google_play_url, itunes_url: itunes_url}
-
-        if applist.valid?
-          applist.save
+      unless applist.exists?
+        if create(google_play_url: google_play_url, itunes_url: itunes_url)
           imported_num += 1
         end
       end
