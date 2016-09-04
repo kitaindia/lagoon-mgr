@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :user_applists
+  has_many :user_applists, dependent: :delete_all
   has_many :applists, through: :user_applists do
     def reviewing
       where("user_applists.is_done = ?", false)
