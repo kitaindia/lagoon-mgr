@@ -94,12 +94,6 @@ class ApplistsController < ApplicationController
 
   private
 
-  def authenticate_admin_user!
-    unless current_user.is_admin
-      raise ActionController::RoutingError.new('Not Found')
-    end
-  end
-
   # Use callbacks to share common setup or constraints between actions.
   def set_applist
     @applist = Applist.find(params[:id])
