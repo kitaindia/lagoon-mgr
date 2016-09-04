@@ -5,15 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :user_applists, dependent: :delete_all
-  has_many :applists, through: :user_applists do
-    def reviewing
-      where("user_applists.is_done = ?", false)
-    end
-
-    def is_done
-      where("user_applists.is_done = ?", true)
-    end
-  end
+  has_many :applists, through: :user_applists
 
   validates_uniqueness_of :username
   validates_presence_of :username

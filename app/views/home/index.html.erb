@@ -1,11 +1,12 @@
 <p id="notice"><%= notice %></p>
 
-<h1>My reviewing App</h1>
+<h1>My reviewing Apps</h1>
 
 <% if @reviewing_apps.present? %>
 <table>
   <thead>
     <tr>
+      <th>Id</th>
       <th>Itunes Icon</th>
       <th>Itunes App</th>
       <th>Gooele Play Icon</th>
@@ -15,13 +16,13 @@
   </thead>
 
   <tbody>
-    <% @reviewing_apps.each do |applist| %>
+    <% @reviewing_apps.each do |user_applist| %>
       <tr>
-        <td><% if applist.itunes_app %><%= image_tag(applist.itunes_app.icon_url, size: "100x100") %><% end %></td>
-        <td><% if applist.itunes_app %><%= link_to applist.itunes_app.name, applist.itunes_url %><% end %></td>
-        <td><% if applist.google_play_app %><%= image_tag(applist.google_play_app.icon_url, size: "100x100") %><% end %></td>
-        <td><% if applist.google_play_app %><%= link_to applist.google_play_app.name, applist.google_play_url %><% end %></td>
-        <td><%= button_to 'Review Done!', applist_done_app_path(applist) %></td>
+        <td><%= user_applist.applist.id %></td>
+        <td><% if user_applist.applist.itunes_app %><%= image_tag(user_applist.applist.itunes_app.icon_url, size: "100x100") %><% end %></td>
+        <td><% if user_applist.applist.google_play_app %><%= image_tag(user_applist.applist.google_play_app.icon_url, size: "100x100") %><% end %></td>
+        <td><% if user_applist.applist.google_play_app %><%= link_to user_applist.applist.google_play_app.name, user_applist.applist.google_play_url %><% end %></td>
+        <td><%= button_to 'Review Done!', applist_done_app_path(user_applist.applist) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -29,3 +30,26 @@
 <% else %>
 <p>empty Apps</p>
 <% end %>
+
+<h2>My Finished Apps</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Itunes App</th>
+      <th>Gooele Play App</th>
+      <th>Done Datetime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @done_reviewing_apps.each do |user_applist| %>
+      <tr>
+        <td><%= user_applist.applist.id %></td>
+        <td><% if user_applist.applist.itunes_app %><%= link_to user_applist.applist.itunes_app.name, user_applist.applist.itunes_url %><% end %></td>
+        <td><% if user_applist.applist.google_play_app %><%= link_to user_applist.applist.google_play_app.name, user_applist.applist.google_play_url %><% end %></td>
+        <td><%= user_applist.review_done_datetime %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
