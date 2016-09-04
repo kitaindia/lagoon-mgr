@@ -14,13 +14,16 @@ class Applist < ApplicationRecord
     #
     return false unless self.itunes_url
 
-    country_code_match = self.itunes_url.match(/itunes\.apple\.com\/(.+?)\//)
-    app_id_match = self.itunes_url.match(/id(\d+)/)
+    country_code = itunes_url[/(?<=itunes\.apple\.com\/)[^\/]+/]
+    app_id = itunes_url[/(?<=id)[\d]+/]
 
-    return false if country_code_match.nil? or app_id_match.nil?
+    return false if country_code.nil? or app_id.nil?
 
-    country_code = country_code_match[1]
-    app_id = app_id_match[1]
+    if country_code == 'en'
+      # TODO Convert ISO 639-2 Language Code
+      country_code = 'us'
+    end
+
     response = open("https://itunes.apple.com/#{country_code}/lookup?id=#{app_id}")
     code, message = response.status
     if code == '200'
@@ -46,12 +49,10 @@ class Applist < ApplicationRecord
     #
     return false unless self.google_play_url
 
-    app_id_match = self.google_play_url.match(/id=(.+)$/)
+    app_id = self.google_play_url[/(?<=id=)[\S]+$/]
 
-    p app_id_match
-    return false if app_id_match.nil?
+    return false if app_id.nil?
 
-    app_id = app_id_match[1]
     app = MarketBot::Play::App.new(app_id)
     begin
       app.update
