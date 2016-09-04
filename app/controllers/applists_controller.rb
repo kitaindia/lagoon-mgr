@@ -1,6 +1,3 @@
-require 'open-uri'
-require 'csv'
-
 class ApplistsController < ApplicationController
 
   before_action :authenticate_user!
