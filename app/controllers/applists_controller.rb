@@ -64,10 +64,11 @@ class ApplistsController < ApplicationController
   end
 
   def import
-    if params[:csv_file].blank?
+    if params[:csv_text].blank?
       redirect_to :applists, alert: 'You must select CSV file'
     else
-      num = Applist.import(params[:csv_file])
+      print(params[':csv_text'])
+      num = Applist.import(params[:csv_text])
       redirect_to :applists, notice: "Add #{num.to_s} applists was successfully created."
     end
   end

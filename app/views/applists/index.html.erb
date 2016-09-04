@@ -4,12 +4,12 @@
 </div>
 <div class="panel panel-default">
   <div class="panel-body">
-    <%= form_tag(import_applists_path, :method => :post, multipart: true) do %>
+    <%= form_tag(import_applists_path, :method => :post) do %>
       <div class="form-group">
-        <%= file_field_tag :csv_file %>
+        <p>google_play_url, itunes_url</p>
+        <%= text_area_tag :csv_text, '', size: '120x20', placeholder: "https://play.google.com/store/apps/details?id=jp.naver.line.android&hl=ja, https://itunes.apple.com/jp/app/line/id443904275?mt=8\n, https://itunes.apple.com/jp/app/google-mappu-riarutaimuno/id585027354?mt=8" %>
       </div>
       <%= submit_tag "CSV Import", :class => "btn btn-primary" %>
-      <td><%= link_to "Get Empty CSV file", empty_csv_applists_path %></td>
     <% end %>
   </div>
 </div>

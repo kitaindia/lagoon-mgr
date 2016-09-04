@@ -72,28 +72,25 @@ class Applist < ApplicationRecord
     return false
   end
 
-  def self.import(file)
+  def self.import(rows)
 
     imported_num = 0
     #
     # Import app data if not exists
     #
-    open(file.path) do |f|
-      csv = CSV.new(f, :headers => :first_row)
-      csv.each do |row|
-        next if row.header_row?
+    csv = CSV.new(rows)
+    csv.each do |row|
+      google_play_url = row[0].strip
+      itunes_url = row[1].strip
+      applist = where([ "google_play_url = ? or itunes_url = ?", google_play_url, itunes_url ])
 
-        table = Hash[[row.headers, row.fields].transpose]
-        applist = where([ "google_play_url = ? or itunes_url = ?", table["google_play_url"], table["itunes_url"] ])
+      if applist.empty?
+        applist = new
+        applist.attributes = {google_play_url: google_play_url, itunes_url: itunes_url}
 
-        if applist.empty?
-          applist = new
-          applist.attributes = {google_play_url: table["google_play_url"], itunes_url: table["itunes_url"]}
-
-          if applist.valid?
-            applist.save
-            imported_num += 1
-          end
+        if applist.valid?
+          applist.save
+          imported_num += 1
         end
       end
     end

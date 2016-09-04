@@ -9,7 +9,6 @@ Rails.application.routes.draw do
     post :done_app
     collection do
       post :import
-      get :empty_csv, format: true, defaults: {format: 'csv'}
     end
   end
   devise_for :users, skip: [:registrations]
