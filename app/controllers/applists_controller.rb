@@ -7,7 +7,7 @@ class ApplistsController < ApplicationController
   # GET /applists
   # GET /applists.json
   def index
-    @applists = Applist.page(params[:page])
+    @applists = Applist.includes(user_applists: [:user]).page(params[:page])
   end
 
   # GET /applists/1
