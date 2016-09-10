@@ -73,24 +73,13 @@ class Applist < ApplicationRecord
   end
 
   def self.import(rows)
-
-    imported_num = 0
     #
     # Import app data if not exists
     #
-    csv = CSV.new(rows)
-    csv.each do |row|
-      google_play_url = row[0].strip
-      itunes_url = row[1].strip
-      applist = where([ "google_play_url = ? or itunes_url = ?", google_play_url, itunes_url ])
-
-      unless applist.exists?
-        if create(google_play_url: google_play_url, itunes_url: itunes_url)
-          imported_num += 1
-        end
-      end
+    CSV.new(rows).to_a.count do |row|
+      google_play_url = row[0] ? row[0].strip : row[0]
+      itunes_url = row[1] ? row[1].strip : row[1]
+      create(google_play_url: google_play_url, itunes_url: itunes_url) unless where([ "google_play_url = ? or itunes_url = ?", google_play_url, itunes_url ]).exists?
     end
-
-    imported_num
   end
 end
