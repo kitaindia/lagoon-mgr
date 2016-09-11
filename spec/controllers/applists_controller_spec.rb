@@ -3,6 +3,13 @@ require 'rails_helper'
 RSpec.describe ApplistsController, type: :controller do
   let(:valid_attributes) {
     {
+      google_play_url: 'https://play.google.com/store/apps/details?id=jp.naver.line.android&hl=id',
+      itunes_url: 'https://itunes.apple.com/jp/app/line/id443904275?mt=8'
+    }
+  }
+
+  let(:invalid_url_attributes) {
+    {
       google_play_url: 'https://play.google.com/store/apps/details?id=test.lagoon-mgr&hl=id',
       itunes_url: 'https://itunes.apple.com/id/lookup?id=123456789'
     }
@@ -12,6 +19,12 @@ RSpec.describe ApplistsController, type: :controller do
     {
       google_play_url: nil,
       itunes_url: nil
+    }
+  }
+
+  let(:invalid_csv_text){
+    {
+      csv_text: ''
     }
   }
 
@@ -159,6 +172,87 @@ RSpec.describe ApplistsController, type: :controller do
         applist = Applist.create! valid_attributes
         delete :destroy, params: {id: applist.id}
         expect(response).to redirect_to(applists_url)
+      end
+    end
+
+    describe "POST #scrape_app" do
+      it "scrape app detail" do
+        applist = Applist.create! valid_attributes
+        post :scrape_app, params: {applist_id: applist.id}
+        expect(applist.google_play_app).to be_persisted
+        expect(applist.itunes_app).to be_persisted
+      end
+
+      it "scrape invalid applist url" do
+        applist = Applist.create! invalid_url_attributes
+        post :scrape_app, params: {applist_id: applist.id}
+        expect(applist.google_play_app).to be_falsey
+        expect(applist.itunes_app).to be_falsey
+      end
+
+      it "redirects to the applists" do
+        applist = Applist.create! valid_attributes
+        post :scrape_app, params: {applist_id: applist.id}
+        expect(response).to redirect_to(applists_url)
+      end
+    end
+
+    describe "POST #import" do
+      context "with valid params" do
+        before do
+          @csv_text = <<EOL
+https://play.google.com/store/apps/details?id=com.space.japanese&hl=en,
+https://play.google.com/store/apps/details?id=com.maxmpz.audioplayer.unlock,
+https://play.google.com/store/apps/details?id=com.NeverEndingMedia.HTMC&hl=in,https://itunes.apple.com/mx/app/hey!-thats-my-cheese/id1040204246?l=en&mt=8
+,https://itunes.apple.com/id/app/the-king-of-fighters-i-2012-f/id958070620?mt=8
+EOL
+          @duplicated_csv_text = <<EOL
+https://play.google.com/store/apps/details?id=jp.naver.line.android&hl=id,https://itunes.apple.com/jp/app/line/id443904275?mt=8
+https://play.google.com/store/apps/details?id=jp.naver.line.android&hl=id,https://itunes.apple.com/jp/app/line/id443904275?mt=8
+https://play.google.com/store/apps/details?id=jp.naver.line.android&hl=id,https://itunes.apple.com/jp/app/line/id443904275?mt=8
+EOL
+        end
+
+        it "creates 4 new Applist" do
+          expect {
+            post :import, params: {csv_text: @csv_text}
+          }.to change(Applist, :count).by(4)
+        end
+
+        it "params blanked" do
+          post :import
+          expect(response).to redirect_to(applists_url)
+        end
+
+        it "duplicated csv text" do
+          expect {
+            post :import, params: {csv_text: @duplicated_csv_text}
+          }.to change(Applist, :count).by(1)
+        end
+
+        it "redirects to applists" do
+          post :import, params: {csv_text: @csv_text}
+          expect(response).to redirect_to(applists_url)
+        end
+      end
+    end
+
+    describe "POST #done_app" do
+      context "with valid applist" do
+        it "redirect_to root_url" do
+          applist = Applist.create! valid_attributes
+          UserApplist.create!(user: current_user, applist: applist)
+          post :done_app, params: {applist_id: applist.id}
+          expect(response).to redirect_to(root_url)
+        end
+
+        it "redirect_to root_url" do
+          applist = Applist.create! valid_attributes
+          user_applist = UserApplist.create!(user: current_user, applist: applist)
+          post :done_app, params: {applist_id: applist.id}
+          user_applist.reload
+          expect(user_applist.is_done).to be_truthy
+        end
       end
     end
   end
