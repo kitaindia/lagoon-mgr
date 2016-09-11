@@ -79,7 +79,9 @@ class Applist < ApplicationRecord
     CSV.new(rows).to_a.count do |row|
       google_play_url = row[0] ? row[0].strip : row[0]
       itunes_url = row[1] ? row[1].strip : row[1]
-      create(google_play_url: google_play_url, itunes_url: itunes_url) unless where([ "google_play_url = ? or itunes_url = ?", google_play_url, itunes_url ]).exists?
+      unless where([ "google_play_url = ? or itunes_url = ?", google_play_url, itunes_url ]).exists?
+        create(google_play_url: google_play_url, itunes_url: itunes_url)
+      end
     end
   end
 end
