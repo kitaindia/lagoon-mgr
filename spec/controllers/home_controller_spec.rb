@@ -1,6 +1,6 @@
 require 'rails_helper'
-
-RSpec.describe UsersController, type: :controller do
+#
+RSpec.describe HomeController, type: :controller do
   describe 'without login' do
     describe "GET #index" do
       it "redirects to login page" do
@@ -14,10 +14,9 @@ RSpec.describe UsersController, type: :controller do
     login_admin
 
     describe "GET #index" do
-      it "assigns all applists as @applists" do
-        users = FactoryGirl.create_list(:user, 2)
+      it "success" do
         get :index, params: {}
-        expect(assigns(:users)).to eq [current_user, *users]
+        expect(response).to render_template("index")
       end
     end
   end
@@ -26,10 +25,9 @@ RSpec.describe UsersController, type: :controller do
     login_user
 
     describe "GET #index" do
-      it "Not Found Error" do
-        expect {
-          get :index, params: {}
-        }.to raise_error(ActionController::RoutingError)
+      it "success" do
+        get :index, params: {}
+        expect(response).to render_template("index")
       end
     end
   end
