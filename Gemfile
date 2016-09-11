@@ -36,6 +36,8 @@ gem 'market_bot'
 
 gem 'seed-fu'
 
+gem 'kaminari', '~> 0.17.0'
+
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 
