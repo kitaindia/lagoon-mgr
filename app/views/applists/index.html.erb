@@ -2,6 +2,17 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= form_tag(import_applists_path, :method => :post) do %>
+      <div class="form-group">
+        <p>google_play_url, itunes_url</p>
+        <%= text_area_tag :csv_text, '', size: '120x20', placeholder: "https://play.google.com/store/apps/details?id=jp.naver.line.android&hl=ja, https://itunes.apple.com/jp/app/line/id443904275?mt=8\n, https://itunes.apple.com/jp/app/google-mappu-riarutaimuno/id585027354?mt=8" %>
+      </div>
+      <%= submit_tag "CSV Import", :class => "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -43,7 +54,7 @@
     <% end %>
   </tbody>
 </table>
-
+<%= paginate @applists %>
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_applist_path,
             :class => 'btn btn-primary' %>

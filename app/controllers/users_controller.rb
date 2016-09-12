@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @users = User.all
+    @users = User.page(params[:page])
   end
 
   def show
@@ -50,11 +50,6 @@ class UsersController < ApplicationController
   end
 
   private
-  def authenticate_admin_user!
-    unless current_user.is_admin
-      raise ActionController::RoutingError.new('Not Found')
-    end
-  end
 
   def set_user
     @user = User.find(params[:id])
