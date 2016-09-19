@@ -176,14 +176,14 @@ RSpec.describe ApplistsController, type: :controller do
     end
 
     describe "POST #scrape_app" do
-      it "scrape app detail" do
+      it "creates google_play_app and itunes_app" do
         applist = Applist.create! valid_attributes
         post :scrape_app, params: {applist_id: applist.id}
         expect(applist.google_play_app).to be_persisted
         expect(applist.itunes_app).to be_persisted
       end
 
-      it "scrape invalid applist url" do
+      it "does not save google_play_app and itunes_app if applist urls are invalid" do
         applist = Applist.create! invalid_url_attributes
         post :scrape_app, params: {applist_id: applist.id}
         expect(applist.google_play_app).to be_falsey
@@ -219,12 +219,12 @@ EOL
           }.to change(Applist, :count).by(4)
         end
 
-        it "params blanked" do
+        it "redirects to the applists if params is blank" do
           post :import
           expect(response).to redirect_to(applists_url)
         end
 
-        it "duplicated csv text" do
+        it "skips duplicated rows" do
           expect {
             post :import, params: {csv_text: @duplicated_csv_text}
           }.to change(Applist, :count).by(1)
@@ -239,14 +239,14 @@ EOL
 
     describe "POST #done_app" do
       context "with valid applist" do
-        it "redirect_to root_url" do
+        it "redirects to the root" do
           applist = Applist.create! valid_attributes
           UserApplist.create!(user: current_user, applist: applist)
           post :done_app, params: {applist_id: applist.id}
           expect(response).to redirect_to(root_url)
         end
 
-        it "redirect_to root_url" do
+        it "sets #is_done true" do
           applist = Applist.create! valid_attributes
           user_applist = UserApplist.create!(user: current_user, applist: applist)
           post :done_app, params: {applist_id: applist.id}

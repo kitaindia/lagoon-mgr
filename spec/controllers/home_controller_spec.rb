@@ -14,7 +14,7 @@ RSpec.describe HomeController, type: :controller do
     login_admin
 
     describe "GET #index" do
-      it "success" do
+      it "renders index" do
         get :index, params: {}
         expect(response).to render_template("index")
       end
@@ -25,7 +25,7 @@ RSpec.describe HomeController, type: :controller do
     login_user
 
     describe "GET #index" do
-      it "success" do
+      it "renders index" do
         get :index, params: {}
         expect(response).to render_template("index")
       end

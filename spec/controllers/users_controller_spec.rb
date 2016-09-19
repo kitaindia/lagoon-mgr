@@ -26,7 +26,7 @@ RSpec.describe UsersController, type: :controller do
     login_user
 
     describe "GET #index" do
-      it "Not Found Error" do
+      it "raises RoutingError" do
         expect {
           get :index, params: {}
         }.to raise_error(ActionController::RoutingError)
