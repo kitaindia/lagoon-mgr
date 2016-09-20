@@ -41,12 +41,26 @@ gem 'kaminari', '~> 0.17.0'
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 
+gem 'pry-rails'
+gem 'awesome_print'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'dotenv-rails'
   gem 'letter_opener'
   gem 'letter_opener_web'
+
+  gem 'pry-doc'
+  gem 'pry-byebug'
+  gem 'pry-stack_explorer'
+  gem 'factory_girl_rails'
+  gem 'rspec-rails'
+  gem 'rails-controller-testing'
+  gem 'spring-commands-rspec'
+  gem 'guard'
+  gem 'guard-bundler'
+  gem 'guard-rspec'
 end
 
 group :development do
@@ -56,6 +70,10 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :test do
+  gem 'simplecov', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
