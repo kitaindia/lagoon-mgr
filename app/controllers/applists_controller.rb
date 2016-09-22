@@ -1,7 +1,8 @@
 class ApplistsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :authenticate_admin_user!
+  before_action :authenticate_admin_user!,
+                only: [:index, :show, :new, :edit, :scrape_app, :update, :create, :import, :destroy]
   before_action :set_applist, only: [:show, :edit, :update, :destroy]
 
   # GET /applists
@@ -44,7 +45,7 @@ class ApplistsController < ApplicationController
     applist = Applist.find(params[:applist_id])
     user_applist = applist.user_applists.find_by(user: current_user)
 
-    if user_applist.update_attributes(is_done: true)
+    if user_applist.update_attributes(is_done: true, review_done_datetime: Time.zone.now)
       redirect_to :root, notice: "App was successfully done!"
     else
       redirect_to :root, notice: "something went wrong"

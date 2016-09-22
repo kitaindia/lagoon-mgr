@@ -47,6 +47,26 @@ RSpec.describe ApplistsController, type: :controller do
         }.to raise_error(ActionController::RoutingError)
       end
     end
+
+    describe "POST #done_app" do
+      context "with valid applist" do
+        it "redirects to the root" do
+          applist = Applist.create! valid_attributes
+          UserApplist.create!(user: current_user, applist: applist)
+          post :done_app, params: {applist_id: applist.id}
+          expect(response).to redirect_to(root_url)
+        end
+
+        it "sets #is_done true" do
+          applist = Applist.create! valid_attributes
+          user_applist = UserApplist.create!(user: current_user, applist: applist)
+          post :done_app, params: {applist_id: applist.id}
+          user_applist.reload
+          expect(user_applist.is_done).to be_truthy
+        end
+      end
+    end
+
   end
 
   describe 'with login admin' do

@@ -18,13 +18,11 @@ ActiveRecord::Schema.define(version: 20160904085923) do
   create_table "applists", force: :cascade do |t|
     t.string   "google_play_url"
     t.string   "itunes_url"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.boolean  "is_scraped",           default: false
-    t.datetime "review_done_datetime"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "is_scraped",      default: false
     t.index ["google_play_url"], name: "index_applists_on_google_play_url", using: :btree
     t.index ["itunes_url"], name: "index_applists_on_itunes_url", using: :btree
-    t.index ["review_done_datetime"], name: "index_applists_on_review_done_datetime", using: :btree
   end
 
   create_table "google_play_apps", force: :cascade do |t|
