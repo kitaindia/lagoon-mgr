@@ -89,12 +89,13 @@ class Applist < ApplicationRecord
     #
     # Import app data if not exists
     #
-    CSV.new(rows).to_a.count do |row|
+    applists = []
+    CSV.new(rows).to_a.each do |row|
       google_play_url = row[0] ? row[0].strip : row[0]
       itunes_url = row[1] ? row[1].strip : row[1]
-      unless where([ "google_play_url = ? or itunes_url = ?", google_play_url, itunes_url ]).exists?
-        create(google_play_url: google_play_url, itunes_url: itunes_url)
-      end
+      applist = new(google_play_url: google_play_url, itunes_url: itunes_url)
+      applists << applist if applist.save
     end
+    applists
   end
 end

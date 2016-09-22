@@ -54,7 +54,7 @@ class ApplistsController < ApplicationController
 
     if @applist.save
       if @applist.scrape_app
-        redirect_to @applist, notice: 'Applist was successfully created. Succes to get App Detail.'
+        redirect_to @applist, notice: 'Applist was successfully created. Success to get App Detail.'
       else
         redirect_to @applist, notice: 'Applist was successfully created. But failed to get App detail.'
       end
@@ -67,8 +67,13 @@ class ApplistsController < ApplicationController
     if params[:csv_text].blank?
       redirect_to :applists, alert: 'You must select CSV file'
     else
-      num = Applist.import(params[:csv_text])
-      redirect_to :applists, notice: "Add #{num.to_s} applists was successfully created."
+      @applists = Applist.import(params[:csv_text])
+      @scrape_success_count = @applists.count { |applist| applist.scrape_app }
+
+      redirect_to :applists, notice: <<EOL
+Add #{@applists.count.to_s} applists was successfully created.
+Success to get #{@scrape_success_count.to_s} App Detail
+EOL
     end
   end
 

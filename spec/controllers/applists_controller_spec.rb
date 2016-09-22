@@ -262,6 +262,12 @@ EOL
           }.to change(Applist, :count).by(4)
         end
 
+        it "assigns a created app detail count as @scrape_success_count" do
+          post :import, params: {csv_text: @csv_text}
+          expect(assigns(:applists).count).to eq(4)
+          expect(assigns(:scrape_success_count)).to eq(4)
+        end
+
         it "redirects to the applists if params is blank" do
           post :import
           expect(response).to redirect_to(applists_url)
@@ -271,6 +277,12 @@ EOL
           expect {
             post :import, params: {csv_text: @duplicated_csv_text}
           }.to change(Applist, :count).by(1)
+        end
+
+        it "skips duplicated rows and assigns a created app detail count as @scrape_success_count" do
+          post :import, params: {csv_text: @duplicated_csv_text}
+          expect(assigns(:applists).count).to eq(1)
+          expect(assigns(:scrape_success_count)).to eq(1)
         end
 
         it "redirects to applists" do
