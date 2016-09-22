@@ -8,10 +8,31 @@ RSpec.describe ApplistsController, type: :controller do
     }
   }
 
-  let(:invalid_url_attributes) {
+  let(:invalid_reverse_url_attributes) {
+    {
+      google_play_url: 'https://itunes.apple.com/jp/app/line/id443904275?mt=8',
+      itunes_url: 'https://play.google.com/store/apps/details?id=jp.naver.line.android&hl=id'
+    }
+  }
+
+  let(:invalid_both_url_attributes) {
     {
       google_play_url: 'https://play.google.com/store/apps/details?id=test.lagoon-mgr&hl=id',
       itunes_url: 'https://itunes.apple.com/id/lookup?id=123456789'
+    }
+  }
+
+  let(:invalid_itunes_url_attributes) {
+    {
+      google_play_url: 'https://play.google.com/store/apps/details?id=jp.co.mixi.monsterstrike&hl=ja',
+      itunes_url: 'https://itunes.apple.com/id/lookup?id=123456789'
+    }
+  }
+
+  let(:invalid_google_url_attributes) {
+    {
+      google_play_url: 'https://play.google.com/store/apps/details?id=test.lagoon-mgr&hl=id',
+      itunes_url: 'https://itunes.apple.com/jp/app/monsutasutoraiku/id658511662?mt=8'
     }
   }
 
@@ -112,20 +133,6 @@ RSpec.describe ApplistsController, type: :controller do
         end
 
         it "assigns a newly created applist as @applist and creates google_play_app and itunes_app" do
-          post :create, params: {applist: invalid_url_attributes}
-          expect(assigns(:applist)).to be_a(Applist)
-          expect(assigns(:applist)).to be_persisted
-          expect(assigns(:applist).itunes_app).to be_falsey
-          expect(assigns(:applist).google_play_app).to be_falsey
-          expect(assigns(:applist).is_scraped).to be_falsey
-        end
-
-        it "redirects to the created applist" do
-          post :create, params: {applist: valid_attributes}
-          expect(response).to redirect_to(Applist.last)
-        end
-
-        it "does not save google_play_app and itunes_app if applist urls are invalid" do
           post :create, params: {applist: valid_attributes}
           expect(assigns(:applist)).to be_a(Applist)
           expect(assigns(:applist)).to be_persisted
@@ -134,13 +141,62 @@ RSpec.describe ApplistsController, type: :controller do
           expect(assigns(:applist).is_scraped).to be_truthy
         end
 
+        it "redirects to the created applist" do
+          post :create, params: {applist: valid_attributes}
+          expect(response).to redirect_to(Applist.last)
+        end
+
         it "does not create same url" do
           Applist.create! valid_attributes
           expect {
             post :create, params: {applist: valid_attributes}
           }.to change(Applist, :count).by(0)
         end
+      end
 
+      context "with reverse_url params" do
+        it "assigns a newly created but unsaved applist as @applist" do
+          post :create, params: {applist: invalid_reverse_url_attributes}
+          expect(assigns(:applist)).to be_a_new(Applist)
+        end
+
+        it "re-renders the 'new' template" do
+          post :create, params: {applist: invalid_reverse_url_attributes}
+          expect(response).to render_template("new")
+        end
+      end
+
+      context "with invalid_both_url_attributes params" do
+        it "assigns a newly created applist but google_play_app and itunes_app are nil" do
+          post :create, params: {applist: invalid_both_url_attributes}
+          expect(assigns(:applist)).to be_a(Applist)
+          expect(assigns(:applist)).to be_persisted
+          expect(assigns(:applist).itunes_app).to be_falsey
+          expect(assigns(:applist).google_play_app).to be_falsey
+          expect(assigns(:applist).is_scraped).to be_falsey
+        end
+      end
+
+      context "with invalid_itunes_url_attributes params" do
+        it "assigns a newly created applist but google_play_app and itunes_app are nil" do
+          post :create, params: {applist: invalid_itunes_url_attributes}
+          expect(assigns(:applist)).to be_a(Applist)
+          expect(assigns(:applist)).to be_persisted
+          expect(assigns(:applist).itunes_app).to be_falsey
+          expect(assigns(:applist).google_play_app).to be_falsey
+          expect(assigns(:applist).is_scraped).to be_falsey
+        end
+      end
+
+      context "with invalid_google_url_attributes params" do
+        it "assigns a newly created applist but google_play_app and itunes_app are nil" do
+          post :create, params: {applist: invalid_google_url_attributes}
+          expect(assigns(:applist)).to be_a(Applist)
+          expect(assigns(:applist)).to be_persisted
+          expect(assigns(:applist).itunes_app).to be_falsey
+          expect(assigns(:applist).google_play_app).to be_falsey
+          expect(assigns(:applist).is_scraped).to be_falsey
+        end
       end
 
       context "with invalid params" do
@@ -226,7 +282,7 @@ RSpec.describe ApplistsController, type: :controller do
       end
 
       it "does not save google_play_app and itunes_app if applist urls are invalid" do
-        applist = Applist.create! invalid_url_attributes
+        applist = Applist.create! invalid_both_url_attributes
         post :scrape_app, params: {applist_id: applist.id}
         expect(applist.google_play_app).to be_falsey
         expect(applist.itunes_app).to be_falsey

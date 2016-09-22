@@ -13,7 +13,16 @@ class Applist < ApplicationRecord
     itunes_result = self.fetch_itunes_app
     google_play_result = self.fetch_google_play
 
+    #
+    # nil... means failed to scrape app detail
+    #
+    return false if itunes_result.nil? || google_play_result.nil?
+
     if itunes_result || google_play_result
+
+      itunes_result.save if itunes_result
+      google_play_result.save if google_play_result
+
       self.update_attributes(is_scraped: true)
       return true
     else
@@ -30,7 +39,7 @@ class Applist < ApplicationRecord
     country_code = itunes_url[/(?<=itunes\.apple\.com\/)[^\/]+/]
     app_id = itunes_url[/(?<=id)[\d]+/]
 
-    return false if country_code.nil? or app_id.nil?
+    return nil if country_code.nil? or app_id.nil?
 
     if country_code == 'en'
       # TODO Convert ISO 639-2 Language Code
@@ -42,18 +51,14 @@ class Applist < ApplicationRecord
     if code == '200'
       json = ActiveSupport::JSON.decode(response.read)
       result = json['results'][0]
-      @itunes_app = ItunesApp.new(
+      return ItunesApp.new(
         icon_url: result['artworkUrl100'],
         name: result['trackName'],
         applist_id: self.id
       )
-
-      if @itunes_app.save
-        return true
-      end
     end
 
-    return false
+    return nil
   end
 
   def fetch_google_play
@@ -64,25 +69,21 @@ class Applist < ApplicationRecord
 
     app_id = self.google_play_url[/(?<=id=)[\S]+$/]
 
-    return false if app_id.nil?
+    return nil if app_id.nil?
 
     app = MarketBot::Play::App.new(app_id)
     begin
       app.update
-      @google_app = GooglePlayApp.new(
+      return GooglePlayApp.new(
         icon_url: app.cover_image_url,
         name: app.title,
         applist_id: self.id
       )
-      if @google_app.save
-        scrape_success = true
-        return true
-      end
     rescue MarketBot::NotFoundError => e
       puts e.message
     end
 
-    return false
+    return nil
   end
 
   def self.import(rows)
