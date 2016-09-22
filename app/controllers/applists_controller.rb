@@ -29,16 +29,11 @@ class ApplistsController < ApplicationController
   def scrape_app
     applist = Applist.find(params[:applist_id])
 
-    itunes_result = applist.fetch_itunes_app
-    google_play_result = applist.fetch_google_play
-
-    if itunes_result || google_play_result
-      applist.update_attributes(is_scraped: true)
+    if applist.scrape_app
       redirect_to :applists, notice: "App detail scraping Success!"
     else
       redirect_to :applists, notice: "something went wrong"
     end
-
   end
 
   def done_app
@@ -58,7 +53,11 @@ class ApplistsController < ApplicationController
     @applist = Applist.new(applist_params)
 
     if @applist.save
-      redirect_to @applist, notice: 'Applist was successfully created.'
+      if @applist.scrape_app
+        redirect_to @applist, notice: 'Applist was successfully created. Succes to get App Detail.'
+      else
+        redirect_to @applist, notice: 'Applist was successfully created. But failed to get App detail.'
+      end
     else
       render :new
     end

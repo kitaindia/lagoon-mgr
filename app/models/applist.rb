@@ -4,9 +4,22 @@ class Applist < ApplicationRecord
   has_one :itunes_app, dependent: :destroy
   has_one :google_play_app, dependent: :destroy
 
-  validates :google_play_url, allow_blank: true, format: /\A#{URI::regexp(%w(http https))}\z/
-  validates :itunes_url, allow_blank: true, format: /\A#{URI::regexp(%w(http https))}\z/
+  validates :google_play_url, uniqueness: true, allow_blank: true, format: /\A#{URI::regexp(%w(http https))}\z/
+  validates :itunes_url, uniqueness: true, allow_blank: true, format: /\A#{URI::regexp(%w(http https))}\z/
   validates_with AnyFieldFillValidator, fields: [:google_play_url, :itunes_url]
+
+  def scrape_app
+
+    itunes_result = self.fetch_itunes_app
+    google_play_result = self.fetch_google_play
+
+    if itunes_result || google_play_result
+      self.update_attributes(is_scraped: true)
+      return true
+    else
+       return false
+    end
+  end
 
   def fetch_itunes_app
     #

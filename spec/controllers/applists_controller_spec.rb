@@ -111,16 +111,36 @@ RSpec.describe ApplistsController, type: :controller do
           }.to change(Applist, :count).by(1)
         end
 
-        it "assigns a newly created applist as @applist" do
-          post :create, params: {applist: valid_attributes}
+        it "assigns a newly created applist as @applist and creates google_play_app and itunes_app" do
+          post :create, params: {applist: invalid_url_attributes}
           expect(assigns(:applist)).to be_a(Applist)
           expect(assigns(:applist)).to be_persisted
+          expect(assigns(:applist).itunes_app).to be_falsey
+          expect(assigns(:applist).google_play_app).to be_falsey
+          expect(assigns(:applist).is_scraped).to be_falsey
         end
 
         it "redirects to the created applist" do
           post :create, params: {applist: valid_attributes}
           expect(response).to redirect_to(Applist.last)
         end
+
+        it "does not save google_play_app and itunes_app if applist urls are invalid" do
+          post :create, params: {applist: valid_attributes}
+          expect(assigns(:applist)).to be_a(Applist)
+          expect(assigns(:applist)).to be_persisted
+          expect(assigns(:applist).itunes_app).to be_persisted
+          expect(assigns(:applist).google_play_app).to be_persisted
+          expect(assigns(:applist).is_scraped).to be_truthy
+        end
+
+        it "does not create same url" do
+          Applist.create! valid_attributes
+          expect {
+            post :create, params: {applist: valid_attributes}
+          }.to change(Applist, :count).by(0)
+        end
+
       end
 
       context "with invalid params" do
@@ -199,8 +219,10 @@ RSpec.describe ApplistsController, type: :controller do
       it "creates google_play_app and itunes_app" do
         applist = Applist.create! valid_attributes
         post :scrape_app, params: {applist_id: applist.id}
+        applist.reload
         expect(applist.google_play_app).to be_persisted
         expect(applist.itunes_app).to be_persisted
+        expect(applist.is_scraped).to be_truthy
       end
 
       it "does not save google_play_app and itunes_app if applist urls are invalid" do
@@ -208,6 +230,7 @@ RSpec.describe ApplistsController, type: :controller do
         post :scrape_app, params: {applist_id: applist.id}
         expect(applist.google_play_app).to be_falsey
         expect(applist.itunes_app).to be_falsey
+        expect(applist.is_scraped).to be_falsey
       end
 
       it "redirects to the applists" do
