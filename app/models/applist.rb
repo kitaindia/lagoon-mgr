@@ -4,9 +4,10 @@ class Applist < ApplicationRecord
   has_one :itunes_app, dependent: :destroy
   has_one :google_play_app, dependent: :destroy
 
-  validates :google_play_url, uniqueness: true, allow_blank: true, format: /\A#{URI::regexp(%w(http https))}\z/
-  validates :itunes_url, uniqueness: true, allow_blank: true, format: /\A#{URI::regexp(%w(http https))}\z/
+  validates :google_play_url, uniqueness: true, allow_blank: true
+  validates :itunes_url, uniqueness: true, allow_blank: true
   validates_with AnyFieldFillValidator, fields: [:google_play_url, :itunes_url]
+  validate :must_be_itunes_url, :must_be_google_play_url
 
   def scrape_app
 
@@ -98,5 +99,21 @@ class Applist < ApplicationRecord
       applists << applist if applist.save
     end
     applists
+  end
+
+  def must_be_itunes_url
+    return if itunes_url.nil?
+
+    unless URI(itunes_url).hostname == 'itunes.apple.com'
+      errors.add(:itunes_url, 'itunes_url field must be itunes_url')
+    end
+  end
+
+  def must_be_google_play_url
+    return if google_play_url.nil?
+
+    unless URI(google_play_url).hostname == 'play.google.com'
+      errors.add(:google_play_url, 'google_play_url field must be google_play_url')
+    end
   end
 end
