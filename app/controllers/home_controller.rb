@@ -15,7 +15,9 @@ class HomeController < ApplicationController
 
     @reviewing_apps = current_user.user_applists.reviewing.includes(applist: [:itunes_app, :google_play_app])
     @done_reviewing_apps =
-      current_user.user_applists.is_done.includes(applist: [:itunes_app, :google_play_app]).order('review_done_datetime DESC')
+      current_user.user_applists
+      .is_done.includes(applist: [:itunes_app, :google_play_app])
+      .order('review_done_datetime DESC')
   end
 
 end

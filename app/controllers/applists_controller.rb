@@ -40,7 +40,7 @@ class ApplistsController < ApplicationController
     applist = Applist.find(params[:applist_id])
     user_applist = applist.user_applists.find_by(user: current_user)
 
-    if user_applist.update_attributes(is_done: true, review_done_datetime: Time.zone.now)
+    if user_applist.update(is_done: true, review_done_datetime: Time.zone.now)
       redirect_to :root, notice: "App was successfully done!"
     else
       redirect_to :root, notice: "something went wrong"
@@ -70,10 +70,10 @@ class ApplistsController < ApplicationController
       @applists = Applist.import(params[:csv_text])
       @scrape_success_count = @applists.count { |applist| applist.scrape_app }
 
-      redirect_to :applists, notice: <<EOL
+      redirect_to :applists, notice: <<EOS
 Add #{@applists.count.to_s} applists was successfully created.
 Success to get #{@scrape_success_count.to_s} App Detail
-EOL
+EOS
     end
   end
 

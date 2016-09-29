@@ -24,7 +24,7 @@ class Applist < ApplicationRecord
       itunes_result.save if itunes_result
       google_play_result.save if google_play_result
 
-      self.update_attributes(is_scraped: true)
+      self.update(is_scraped: true)
       return true
     else
        return false
