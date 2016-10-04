@@ -17,9 +17,11 @@ class Applist < ApplicationRecord
 
       update(is_scraped: true)
     end
-    rescue => e
-      puts e
-      return
+
+  rescue => e
+    logger.error(e)
+    nil
+
   end
 
   def fetch_itunes_app
