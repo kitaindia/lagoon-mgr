@@ -1,13 +1,14 @@
 class ApplistsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :authenticate_admin_user!
+  before_action :authenticate_admin_user!,
+                only: [:index, :show, :new, :edit, :scrape_app, :update, :create, :import, :destroy]
   before_action :set_applist, only: [:show, :edit, :update, :destroy]
 
   # GET /applists
   # GET /applists.json
   def index
-    @applists = Applist.page(params[:page])
+    @applists = Applist.includes(user_applists: [:user]).page(params[:page])
   end
 
   # GET /applists/1
@@ -28,23 +29,18 @@ class ApplistsController < ApplicationController
   def scrape_app
     applist = Applist.find(params[:applist_id])
 
-    itunes_result = applist.fetch_itunes_app
-    google_play_result = applist.fetch_google_play
-
-    if itunes_result || google_play_result
-      applist.update_attributes(is_scraped: true)
+    if applist.scrape_app
       redirect_to :applists, notice: "App detail scraping Success!"
     else
       redirect_to :applists, notice: "something went wrong"
     end
-
   end
 
   def done_app
     applist = Applist.find(params[:applist_id])
     user_applist = applist.user_applists.find_by(user: current_user)
 
-    if user_applist.update_attributes(is_done: true)
+    if user_applist.update(is_done: true, review_done_datetime: Time.zone.now)
       redirect_to :root, notice: "App was successfully done!"
     else
       redirect_to :root, notice: "something went wrong"
@@ -57,7 +53,11 @@ class ApplistsController < ApplicationController
     @applist = Applist.new(applist_params)
 
     if @applist.save
-      redirect_to @applist, notice: 'Applist was successfully created.'
+      if @applist.scrape_app
+        redirect_to @applist, notice: 'Applist was successfully created. Success to get App Detail.'
+      else
+        redirect_to @applist, notice: 'Applist was successfully created. But failed to get App detail.'
+      end
     else
       render :new
     end
@@ -67,8 +67,13 @@ class ApplistsController < ApplicationController
     if params[:csv_text].blank?
       redirect_to :applists, alert: 'You must select CSV file'
     else
-      num = Applist.import(params[:csv_text])
-      redirect_to :applists, notice: "Add #{num.to_s} applists was successfully created."
+      @applists = Applist.import(params[:csv_text])
+      @scrape_success_count = @applists.count { |applist| applist.scrape_app }
+
+      redirect_to :applists, notice: <<EOS
+Add #{@applists.count.to_s} applists was successfully created.
+Success to get #{@scrape_success_count.to_s} App Detail
+EOS
     end
   end
 

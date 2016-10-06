@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160820070137) do
+ActiveRecord::Schema.define(version: 20160904085923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,8 +45,10 @@ ActiveRecord::Schema.define(version: 20160820070137) do
     t.integer  "user_id"
     t.integer  "applist_id"
     t.boolean  "is_done"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.datetime "review_done_datetime"
+    t.index ["review_done_datetime"], name: "index_user_applists_on_review_done_datetime", using: :btree
   end
 
   create_table "users", force: :cascade do |t|

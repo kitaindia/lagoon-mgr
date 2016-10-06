@@ -20,6 +20,7 @@
       <th><%= model_class.human_attribute_name(:google_play_url) %></th>
       <th><%= model_class.human_attribute_name(:itunes_url) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th>Reviewer<br>(is_done?)</th>
       <th>Fetch App-info</th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -31,6 +32,7 @@
         <td><%= applist.google_play_url %></td>
         <td><%= applist.itunes_url %></td>
         <td><%= applist.created_at %></td>
+        <td><% if applist.user_applists.present? %><%= applist.user_applists.first.user.username %>(<%= applist.user_applists.first.is_done %>)<% end %></td>
         <td>
           <% if applist.is_scraped %>
             <%= button_to 'FETCH', applist_scrape_app_path(applist),
