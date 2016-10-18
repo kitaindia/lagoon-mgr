@@ -1,6 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Applist, type: :model do
+
+  before do
+  stub_request(:get, %r{play\.google\.com\/.*}).to_return(
+    headers: {'Content-Type' => 'text/html'},
+    body: <<EOS,
+  <h1>testing</h1>
+EOS
+  )
+
+  stub_request(:get, %r{itunes\.apple\.com\/.*\/.*}).to_return(
+    headers: {'Content-Type' => 'text/html'},
+    body: <<EOS,
+  <h1>testing</h1>
+EOS
+  )
+  end
+
   describe "scrape_app method" do
     context "valid google_play_url and valid itunes_url" do
       it "creates google_play_app and itunes_app" do
