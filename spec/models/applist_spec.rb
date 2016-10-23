@@ -4,12 +4,12 @@ RSpec.describe Applist, type: :model do
 
   before do
 
-    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=exampleexampleexampleexample\Z}).to_return(
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=en&id=exampleexampleexampleexample\Z}).to_return(
       headers: {'Content-Type' => 'text/html'},
       body: read_data('google_exampleexampleexampleexample.txt')
     )
 
-    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=com\.kakao\.talk\Z}).to_return(
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=en&id=com\.kakao\.talk\Z}).to_return(
       headers: {'Content-Type' => 'text/html'},
       body: read_data('google_com.kakao.talk.txt')
     )

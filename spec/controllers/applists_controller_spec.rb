@@ -4,39 +4,34 @@ RSpec.describe ApplistsController, type: :controller do
 
   before do
 
-    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=jp\.naver\.line\.android\Z}).to_return(
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=id&id=jp\.naver\.line\.android\Z}).to_return(
       headers: {'Content-Type' => 'text/html'},
       body: read_data('google_jp.naver.line.android.txt')
     )
 
-    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=exampleexampleexampleexample\Z}).to_return(
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=en&id=exampleexampleexampleexample\Z}).to_return(
       headers: {'Content-Type' => 'text/html'},
       body: read_data('google_exampleexampleexampleexample.txt')
     )
 
-    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=jp\.co\.mixi\.monsterstrike\Z}).to_return(
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=ja&id=jp\.co\.mixi\.monsterstrike\Z}).to_return(
       headers: {'Content-Type' => 'text/html'},
       body: read_data('google_jp.co.mixi.monsterstrike.txt')
     )
 
-    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=com\.space\.japanese\Z}).to_return(
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=en&id=com\.space\.japanese\Z}).to_return(
       headers: {'Content-Type' => 'text/html'},
       body: read_data('google_com.space.japanese.txt')
     )
 
-    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=com\.maxmpz\.audioplayer\.unlock\Z}).to_return(
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=en&id=com\.maxmpz\.audioplayer\.unlock\Z}).to_return(
       headers: {'Content-Type' => 'text/html'},
       body: read_data('google_com.maxmpz.audioplayer.unlock.txt')
     )
 
-    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=com\.NeverEndingMedia\.HTMC\Z}).to_return(
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=in&id=com\.NeverEndingMedia\.HTMC\Z}).to_return(
       headers: {'Content-Type' => 'text/html'},
       body: read_data('google_com.NeverEndingMedia.HTMC.txt')
-    )
-
-    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=com\.kakao\.talk\Z}).to_return(
-      headers: {'Content-Type' => 'text/html'},
-      body: read_data('google_com.kakao.talk.txt')
     )
 
     stub_request(:get, "https://itunes.apple.com/in/lookup?id=0123456789").to_return(
