@@ -108,3 +108,9 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+def read_data(name)
+  path = File.join(File.expand_path(File.dirname(__FILE__)),
+                   'lagoon_mgr', 'data', name)
+  File.read(path)
+end

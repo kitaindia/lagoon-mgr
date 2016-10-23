@@ -3,19 +3,35 @@ require 'rails_helper'
 RSpec.describe Applist, type: :model do
 
   before do
-  stub_request(:get, %r{play\.google\.com\/.*}).to_return(
-    headers: {'Content-Type' => 'text/html'},
-    body: <<EOS,
-  <h1>testing</h1>
-EOS
-  )
 
-  stub_request(:get, %r{itunes\.apple\.com\/.*\/.*}).to_return(
-    headers: {'Content-Type' => 'text/html'},
-    body: <<EOS,
-  <h1>testing</h1>
-EOS
-  )
+    @html_invalid_google = read_data('google_exampleexampleexampleexample.txt')
+
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=exampleexampleexampleexample\Z}).to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: @html_invalid_google
+    )
+
+    @html_valid_google = read_data('google_com.kakao.talk.txt')
+
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?.*id=com\.kakao\.talk\Z}).to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: @html_valid_google
+    )
+
+    @html_invalid_itunes = read_data('itunes_0123456789.txt')
+
+    stub_request(:get, "https://itunes.apple.com/in/lookup?id=0123456789").to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: @html_invalid_itunes
+    )
+
+    @html_valid_itunes = read_data('itunes_362057947.txt')
+
+    stub_request(:get, "https://itunes.apple.com/in/lookup?id=362057947").to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: @html_valid_itunes
+    )
+
   end
 
   describe "scrape_app method" do
