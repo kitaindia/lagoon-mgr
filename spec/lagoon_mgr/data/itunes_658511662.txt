@@ -1,0 +1,24 @@
+
+
+
+{
+ "resultCount":0,
+ "results": []
+}
+
+
+
+
+
+{
+ "resultCount":1,
+ "results": [
+{
+"ipadScreenshotUrls":["http://a2.mzstatic.com/jp/r30/Purple71/v4/b6/10/56/b6105628-ff1f-562e-342b-1f08863c6cd2/sc1024x768.jpeg", "http://a1.mzstatic.com/jp/r30/Purple62/v4/7a/40/39/7a4039c0-92a8-5640-275e-f57b3900fd75/sc1024x768.jpeg", "http://a4.mzstatic.com/jp/r30/Purple71/v4/1c/0a/e4/1c0ae471-5f05-4117-55ef-80feb96ee778/sc1024x768.jpeg", "http://a2.mzstatic.com/jp/r30/Purple62/v4/67/05/0a/67050ac4-6972-8938-81b1-dca79163ff48/sc1024x768.jpeg", "http://a3.mzstatic.com/jp/r30/Purple71/v4/a9/ae/95/a9ae959f-1725-a331-3827-9d405f254f09/sc1024x768.jpeg"], "appletvScreenshotUrls":[], "artworkUrl60":"http://is1.mzstatic.com/image/thumb/Purple71/v4/d7/48/c4/d748c4c0-5eeb-7110-d85b-3af9f38ae94d/source/60x60bb.jpg", "artworkUrl512":"http://is1.mzstatic.com/image/thumb/Purple71/v4/d7/48/c4/d748c4c0-5eeb-7110-d85b-3af9f38ae94d/source/512x512bb.jpg", "artworkUrl100":"http://is1.mzstatic.com/image/thumb/Purple71/v4/d7/48/c4/d748c4c0-5eeb-7110-d85b-3af9f38ae94d/source/100x100bb.jpg", "artistViewUrl":"https://itunes.apple.com/jp/developer/xflag-inc./id1106824482?uo=4", "kind":"software", "features":["iosUniversal"], 
+"supportedDevices":["iPhone4", "iPad2Wifi", "iPad23G", "iPhone4S", "iPadThirdGen", "iPadThirdGen4G", "iPhone5", "iPodTouchFifthGen", "iPadFourthGen", "iPadFourthGen4G", "iPadMini", "iPadMini4G", "iPhone5c", "iPhone5s", "iPhone6", "iPhone6Plus", "iPodTouchSixthGen"], "advisories":[], "isGameCenterEnabled":false, 
+"screenshotUrls":["http://a3.mzstatic.com/jp/r30/Purple71/v4/6a/09/71/6a097164-9647-50d7-5e05-71125af4b6b6/screen696x696.jpeg", "http://a1.mzstatic.com/jp/r30/Purple62/v4/ff/82/bf/ff82bf4e-8f5b-dd5f-1712-b86ef70abb24/screen696x696.jpeg", "http://a2.mzstatic.com/jp/r30/Purple62/v4/cd/25/b5/cd25b508-4cde-e767-da97-afbdc3fee03a/screen696x696.jpeg", "http://a5.mzstatic.com/jp/r30/Purple71/v4/f9/64/8d/f9648d47-26ca-4add-96de-f089de24033d/screen696x696.jpeg", "http://a5.mzstatic.com/jp/r30/Purple71/v4/fc/da/56/fcda568e-cb5a-03ce-064b-c6c5f1703876/screen696x696.jpeg"], "fileSizeBytes":"108297216", "userRatingCountForCurrentVersion":12432, "languageCodesISO2A":["EN", "JA"], "trackCensoredName":"モンスターストライク", "sellerUrl":"http://www.monster-strike.com", "contentAdvisoryRating":"4+", "averageUserRatingForCurrentVersion":4.0, "trackViewUrl":"https://itunes.apple.com/jp/app/monsutasutoraiku/id658511662?mt=8&uo=4", "trackContentRating":"4+", "currency":"JPY", "wrapperType":"software", "version":"8.0.0", "artistId":1106824482, "artistName":"XFLAG, Inc.", "genres":["ゲーム", "アクション", "ロールプレイング"], "price":0.00, 
+"description":"◆祝・利用者3500万人突破！／テレビCM絶賛放映中！◆\n\n最大4人同時に楽しめる「ひっぱりハンティングRPG!」\nモンスターマスターになって様々な能力を持つモンスターをたくさん集めよう！ \n1000種類を超える個性豊かなモンスターが君を待ってるぞ！ \n\n【ゲーム紹介】 \n\n▼ルールは簡単 \nモンスターを引っぱって敵に当てるだけ！ \n味方モンスターに当てると、友情コンボが発動！ \n一見攻撃力の弱いモンスターもコンボが発動すると、意外な力を発揮するかも?！ \n\n▼決めろストライクショット！ \nバトルのターンが経過すると必殺技「ストライクショット」が使えるぞ！ \nモンスターによって技は様々、君はすぐ使う派？ボスまで待つ派？ \n使うタイミングが生死を分ける!? \n\n▼集めて育てて強くなれ！ \nバトルやガチャでGetしたモンスターを合成して育てよう！ \n強く進化させるにはモンスター以外に進化素材が必要になるぞ。 \n強いモンスターを育てて君だけの最強チームを作ろう！ \n\n▼天空より舞い降りし、異界のモンスター！ \nボスがステージの最後に出るとは限らないぞ！ \nどんな時も万全の態勢で戦いに挑むべし！ \n\n▼友達と一緒に、強敵を倒そう！ \n近くにいる友達と、最大4人まで同時プレイが可能！\nなんと1人分のスタミナでクエストに挑めるぞ！ \n1人では倒せない強敵も、みんなで力を合わせれば倒せるかも!? \nマルチプレイ専用のレアなクエストも盛りだくさん！\nレアモンスターを倒してゲットしよう！ \n\n\n+++【価格】+++ \nアプリ本体：無料 \n※一部有料アイテムがございます。 \n\n+++【推奨端末】+++ \niOS 7.0 以降／iPhone 4s以降,iPod touch(第5世代以降),iPad2以降\n※推奨端末以外でのサポート、補償等は致しかねますので何卒ご了承くださいませ。\n\nご利用前に「アプリケーション使用許諾契約」に \n表示されている利用規約を必ずご確認の上ご利用ください。", "bundleId":"jp.co.mixi.monsterstrike", "trackId":658511662, "trackName":"モンスターストライク", "releaseDate":"2013-09-27T07:00:00Z", "primaryGenreName":"Games", "isVppDeviceBasedLicensingEnabled":true, "currentVersionReleaseDate":"2016-10-05T15:08:12Z", 
+"releaseNotes":"【更新情報】 \n※新キャラ、新ストライクショット、友情コンボについては公式サイトのお知らせにてご確認ください。 \n=========================\n・ホーム画面からイベントスケジュール確認可能に！※\n・モンスターBOXの名前検索機能追加！※\n・モンスターBOXの初期数が拡張！※\n・モンスターの最大売却数が100体に！※\n・ランクアップしたときにスタミナがオーバー回復するぞ！※\n・ノーマルクエスト刷新！※\n・追憶の書庫リニューアル！※\n・その他UIのブラッシュアップ \n・バグ修正\n\n※詳しくは、公式サイトのお知らせをご覧ください\n=========================", "sellerName":"XFLAG, Inc.", "primaryGenreId":6014, "formattedPrice":"無料", "genreIds":["6014", "7001", "7014"], "minimumOsVersion":"7.0", "averageUserRating":4.0, "userRatingCount":2747393}]
+}
+
+
