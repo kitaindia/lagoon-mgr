@@ -1,6 +1,66 @@
 require 'rails_helper'
 
 RSpec.describe ApplistsController, type: :controller do
+
+  before do
+
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=id&id=jp\.naver\.line\.android\Z}).to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('google_jp.naver.line.android.txt')
+    )
+
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=en&id=exampleexampleexampleexample\Z}).to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('google_exampleexampleexampleexample.txt')
+    )
+
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=ja&id=jp\.co\.mixi\.monsterstrike\Z}).to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('google_jp.co.mixi.monsterstrike.txt')
+    )
+
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=en&id=com\.space\.japanese\Z}).to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('google_com.space.japanese.txt')
+    )
+
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=en&id=com\.maxmpz\.audioplayer\.unlock\Z}).to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('google_com.maxmpz.audioplayer.unlock.txt')
+    )
+
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=in&id=com\.NeverEndingMedia\.HTMC\Z}).to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('google_com.NeverEndingMedia.HTMC.txt')
+    )
+
+    stub_request(:get, "https://itunes.apple.com/in/lookup?id=0123456789").to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('itunes_0123456789.txt')
+    )
+
+    stub_request(:get, "https://itunes.apple.com/jp/lookup?id=443904275").to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('itunes_443904275.txt')
+    )
+
+    stub_request(:get, "https://itunes.apple.com/jp/lookup?id=658511662").to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('itunes_658511662.txt')
+    )
+
+    stub_request(:get, "https://itunes.apple.com/mx/lookup?id=1040204246").to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('itunes_1040204246.txt')
+    )
+
+    stub_request(:get, "https://itunes.apple.com/id/lookup?id=958070620").to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('itunes_958070620.txt')
+    )
+
+  end
+
   let(:valid_attributes) {
     {
       google_play_url: 'https://play.google.com/store/apps/details?id=jp.naver.line.android&hl=id',
@@ -17,21 +77,21 @@ RSpec.describe ApplistsController, type: :controller do
 
   let(:invalid_both_url_attributes) {
     {
-      google_play_url: 'https://play.google.com/store/apps/details?id=test.lagoon-mgr&hl=id',
-      itunes_url: 'https://itunes.apple.com/id/lookup?id=123456789'
+      google_play_url: 'https://play.google.com/store/apps/details?id=exampleexampleexampleexample',
+      itunes_url: 'https://itunes.apple.com/id/lookup?id=0123456789'
     }
   }
 
   let(:invalid_itunes_url_attributes) {
     {
       google_play_url: 'https://play.google.com/store/apps/details?id=jp.co.mixi.monsterstrike&hl=ja',
-      itunes_url: 'https://itunes.apple.com/id/lookup?id=123456789'
+      itunes_url: 'https://itunes.apple.com/id/lookup?id=0123456789'
     }
   }
 
   let(:invalid_google_url_attributes) {
     {
-      google_play_url: 'https://play.google.com/store/apps/details?id=test.lagoon-mgr&hl=id',
+      google_play_url: 'https://play.google.com/store/apps/details?id=exampleexampleexampleexample',
       itunes_url: 'https://itunes.apple.com/jp/app/monsutasutoraiku/id658511662?mt=8'
     }
   }
@@ -216,8 +276,8 @@ RSpec.describe ApplistsController, type: :controller do
       context "with valid params" do
         let(:new_attributes) {
           {
-            google_play_url: 'https://play.google.com/store/apps/details?id=test.lagoon-mgr.new&hl=id',
-            itunes_url: 'https://itunes.apple.com/id/lookup?id=987654321'
+            google_play_url: 'https://play.google.com/store/apps/details?id=exampleexampleexampleexample&hl=id',
+            itunes_url: 'https://itunes.apple.com/id/lookup?id=0123456789'
           }
         }
 

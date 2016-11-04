@@ -53,7 +53,7 @@ class Applist < ApplicationRecord
     params = google_play_params
     return unless params
 
-    app = MarketBot::Play::App.new(params[:app_id])
+    app = MarketBot::Play::App.new(params[:app_id], lang: params[:lang])
     begin
       app.update
       google_play_app = GooglePlayApp.new(
@@ -118,10 +118,11 @@ class Applist < ApplicationRecord
     return unless google_play_url
 
     app_id = google_play_url[/(?<=id=)[\S]+$/]
+    lang = google_play_url[/(?<=hl=)[\S]+$/]
 
     return if app_id.nil?
 
-    {app_id: app_id}
+    {app_id: app_id, lang: lang}
   end
 
 end

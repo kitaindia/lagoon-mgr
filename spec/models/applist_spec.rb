@@ -1,6 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe Applist, type: :model do
+
+  before do
+
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=en&id=exampleexampleexampleexample\Z}).to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('google_exampleexampleexampleexample.txt')
+    )
+
+    stub_request(:get, %r{https://play\.google\.com/store/apps/details\?gl=us&hl=en&id=com\.kakao\.talk\Z}).to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('google_com.kakao.talk.txt')
+    )
+
+    stub_request(:get, "https://itunes.apple.com/in/lookup?id=0123456789").to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('itunes_0123456789.txt')
+    )
+
+    stub_request(:get, "https://itunes.apple.com/in/lookup?id=362057947").to_return(
+      headers: {'Content-Type' => 'text/html'},
+      body: read_data('itunes_362057947.txt')
+    )
+
+  end
+
   describe "scrape_app method" do
     context "valid google_play_url and valid itunes_url" do
       it "creates google_play_app and itunes_app" do
